@@ -11,7 +11,8 @@ public class DragBlockSpawner : MonoBehaviour
     [SerializeField] 
     private Vector3 spawnGapAmount = new Vector3(10, 0, 0); //처음 생성할 때 부모와 떨어진 거리
 
-    void Awake()
+    //void Awake()
+    public void SpawnBlocks()
     {
         StartCoroutine(nameof(OnSpawnBlocks));
     }

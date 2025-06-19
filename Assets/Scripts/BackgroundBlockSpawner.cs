@@ -9,11 +9,15 @@ public class BackgroundBlockSpawner : MonoBehaviour
     private int orderInLayer; //배치되는 블록들이 그려지는 순서
     
     //격자 형태로 생성되는 블록의 개수, 블록 하나의 절반 크기
-    private Vector2Int blockCount = new Vector2Int(10, 10);
-    private Vector2 blockHalf = new Vector2(0.5f, 0.5f);
+    // private Vector2Int blockCount = new Vector2Int(10, 10);
+    // private Vector2 blockHalf = new Vector2(0.5f, 0.5f);
+    
 
-    void Awake()
+    //void Awake()
+    public BackgroundBlock[] SpawnBlocks(Vector2Int blockCount, Vector2 blockHalf)
     {
+        BackgroundBlock[] blocks = new BackgroundBlock[blockCount.x * blockCount.y];
+
         for (int y = 0; y < blockCount.y; y++)
         {
             for (int x = 0; x < blockCount.x; x++)
@@ -26,7 +30,10 @@ public class BackgroundBlockSpawner : MonoBehaviour
                 GameObject block = Instantiate(blockPrefab, position, Quaternion.identity, transform);
                 //방금 생성한 블록의 그려지는 순서 설정
                 block.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
+                //생성한 모든 블록의 정보를 반환하기 위해 blocks[] 배열에 저장
+                blocks[y * blockCount.x + x] = block.GetComponent<BackgroundBlock>();
             }
         }
+        return blocks;
     }
 }
