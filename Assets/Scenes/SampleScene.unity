@@ -495,6 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf9ab577e0c24ae7bc991e70a9c9b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockArrangeSystem: {fileID: 1074458789}
   blockSpawnPoints:
   - {fileID: 966974702}
   - {fileID: 133345573}
@@ -519,6 +520,68 @@ MonoBehaviour:
   - {fileID: 1373152842958050940, guid: 3e4a88bb94d09b741a43289d60b98749, type: 3}
   - {fileID: 1438324261588746372, guid: 6579280985002144eb1171a67af3a767, type: 3}
   - {fileID: 6820251835095410477, guid: 592c27abec3948143b48688d743e4ef3, type: 3}
+  spawnGapAmount: {x: 10, y: 0, z: 0}
+--- !u!1 &1074458786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074458788}
+  - component: {fileID: 1074458787}
+  - component: {fileID: 1074458789}
+  m_Layer: 0
+  m_Name: StageController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1074458787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074458786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a032fc18351a4c679e99cf1415f8269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundBlockSpawner: {fileID: 49477583}
+  foregroundBlockSpawner: {fileID: 1149306161}
+  dragBlockSpawner: {fileID: 1050968326}
+  blockArrangeSystem: {fileID: 1074458789}
+--- !u!4 &1074458788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074458786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074458789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074458786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2afae75bfe04306bf14766dea5fca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149306160
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,3 +668,4 @@ SceneRoots:
   - {fileID: 49477584}
   - {fileID: 1149306162}
   - {fileID: 1050968325}
+  - {fileID: 1074458788}

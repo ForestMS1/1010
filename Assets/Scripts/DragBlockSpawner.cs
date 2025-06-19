@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DragBlockSpawner : MonoBehaviour
 {
+    [SerializeField]
+    private BlockArrangeSystem blockArrangeSystem;
     [SerializeField] 
     private Transform[] blockSpawnPoints; //드래그 가능한 블록이 배치되는 위치
     [SerializeField]
@@ -34,7 +36,7 @@ public class DragBlockSpawner : MonoBehaviour
             GameObject clone = Instantiate(blockPrefabs[index], spawnPosition, Quaternion.identity, blockSpawnPoints[i]);
             
             //드래그 블록을 생성하고, 부모의 위치까지 이동하는 애니메이션 재생
-            clone.GetComponent<DragBlock>().Setup(blockSpawnPoints[i].position);
+            clone.GetComponent<DragBlock>().Setup(blockArrangeSystem, blockSpawnPoints[i].position);
         }
     }
 }

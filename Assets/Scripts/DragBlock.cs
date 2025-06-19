@@ -8,15 +8,31 @@ public class DragBlock : MonoBehaviour
 
     [SerializeField] 
     private AnimationCurve curveScale; // 크기 제어 그래프
+    
+    private BlockArrangeSystem blockArrangeSystem;
 
     private float appearTime = 0.5f; // 블록이 등장할 때 소요되는 시간
     private float returnTime = 0.1f; // 블록이 원래 위치로 돌아갈 때 소요되는 시간
     
     [field : SerializeField]
     public Vector2Int BlockCount {private set; get; } // 자식 블록 개수(가로, 세로)
+    
+    public Color Color { private set; get; } // 블록 색상
+    public Vector3[] ChildBlocks { private set; get; } // 자식 블록들의 지역좌표
 
-    public void Setup(Vector3 parentPosition)
+    public void Setup(BlockArrangeSystem blockArrangeSystem, Vector3 parentPosition)
     {
+        this.blockArrangeSystem = blockArrangeSystem;
+        //자식 블록은 모두 같은 색상이기 때문에 자식 블록 중 누구의 색상을 가져와도 상관없음
+        Color = GetComponentInChildren<SpriteRenderer>().color;
+        
+        // 블록의 모양에 따라 자식 개수가 다르기 때문에 자식 개수만큼 배열 방을 생성하고,
+        // 모든 자식 오브젝트의 지역 좌표를 저장
+        ChildBlocks = new Vector3[transform.childCount];
+        for (int i = 0; i < ChildBlocks.Length; i++)
+        {
+            ChildBlocks[i] = transform.GetChild(i).localPosition;
+        }
         // 우측 화면 바깥에 생성된 블록이 부모 오브젝트 위치까지 이동
         StartCoroutine(OnMoveTo(parentPosition, appearTime));
     }
@@ -53,11 +69,18 @@ public class DragBlock : MonoBehaviour
 
         transform.position = new Vector3(x, y, 0);
         
-        // // 현재 크기에서 0.5크기로 축소
-        // StopCoroutine("OnScaleTo");
-        // StartCoroutine("OnScaleTo", Vector3.one * 0.5f);
-        // // 현재 위치에서 부모 오브젝트 위치로 이동
-        // StartCoroutine(OnMoveTo(transform.parent.position, returnTime));
+        // 현재 위치에 블록을 배치할 수 있는지 검사하고 결과를 반환
+        bool isSuccess = blockArrangeSystem.TryArrangementBlock(this);
+        
+        // 현재 위치에 블록을 배치할 수 없으면 마지막 위치, 크기로 설정
+        if (!isSuccess)
+        {
+            // // 현재 크기에서 0.5크기로 축소
+            StopCoroutine("OnScaleTo");
+            StartCoroutine("OnScaleTo", Vector3.one * 0.5f);
+            // // 현재 위치에서 부모 오브젝트 위치로 이동
+            StartCoroutine(OnMoveTo(transform.parent.position, returnTime));   
+        }
     }
 
     IEnumerator OnMoveTo(Vector3 end, float time)

@@ -9,6 +9,8 @@ public class StageController : MonoBehaviour
     private BackgroundBlockSpawner foregroundBlockSpawner; // 배경 블록 생성
     [SerializeField]
     private DragBlockSpawner dragBlockSpawner; // 드래그 블록 생성
+    [SerializeField]
+    private BlockArrangeSystem blockArrangeSystem; // 블록 배치
 
     private BackgroundBlock[] backgroundBlocks; // 생성한 배경 블록 정보 저장
     private int currentBlockCount; // 현재 남아있는 드래그 블록 개수
@@ -26,6 +28,9 @@ public class StageController : MonoBehaviour
         // 드래그 블록을 배치할 때 색상이 변경되는 배경 블록판 생성
         backgroundBlocks = new BackgroundBlock[blockCount.x * blockCount.y];
         backgroundBlocks = foregroundBlockSpawner.SpawnBlocks(blockCount, blockHalf);
+        
+        // 블록 배치 시스템
+        blockArrangeSystem.Setup(blockCount, blockHalf, backgroundBlocks, this);
         
         // 드래그 블록 생성
         SpawnDragBlocks();
