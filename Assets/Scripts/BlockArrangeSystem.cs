@@ -42,6 +42,9 @@ public class BlockArrangeSystem : MonoBehaviour
             // 해당 위치에 있는 배경 블록의 색상을 변경하고, 채움(BlockState.Fill)으로 변경
             backgroundBlocks[PositionToIndex(position)].FillBlock(block.Color);
         }
+        
+        // 블록 배치 후처리
+        stageController.AfterBlockArrangement(block);
 
         return true;
     }
