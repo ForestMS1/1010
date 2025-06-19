@@ -28,7 +28,6 @@ public class DragBlock : MonoBehaviour
         // 배경 블록의 크기는 1이기 때문에 배경 블록의 크기와 동일한 1로 확대
         StopCoroutine("OnScaleTo");
         StartCoroutine("OnScaleTo", Vector3.one);
-        Debug.Log("Clicked!");
     }
     
     // 해당 오브젝트를 드래그할 때 매 프레임 호출
@@ -42,18 +41,23 @@ public class DragBlock : MonoBehaviour
         //gap에서 z 값을 +10 해줘야 현재 오브젝트들이 배치되어 있는 z=0으로 설정된다.
         Vector3 gap = new Vector3(0, BlockCount.y * 0.5f + 1, 10);
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + gap;
-        Debug.Log("Drag!");
     }
     
     // 해당 오브젝트의 클릭을 종료할 때 1회 호출
     private void OnMouseUp()
     {
-        // 현재 크기에서 0.5크기로 축소
-        StopCoroutine("OnScaleTo");
-        StartCoroutine("OnScaleTo", Vector3.one * 0.5f);
-        // 현재 위치에서 부모 오브젝트 위치로 이동
-        StartCoroutine(OnMoveTo(transform.parent.position, returnTime));
-        Debug.Log("Drag ended!");
+        // 자식 블록 개수가 홀수, 짝수 일 때 다르게 계산
+        // 값을 반올림하는 Mathf.RoundToInt()를 이용해 블록을 배경블록판에 스냅(Snap)해서 배치
+        float x = Mathf.RoundToInt(transform.position.x - BlockCount.x % 2 * 0.5f) + BlockCount.x % 2 * 0.5f;
+        float y = Mathf.RoundToInt(transform.position.y - BlockCount.y % 2 * 0.5f) + BlockCount.y % 2 * 0.5f;
+
+        transform.position = new Vector3(x, y, 0);
+        
+        // // 현재 크기에서 0.5크기로 축소
+        // StopCoroutine("OnScaleTo");
+        // StartCoroutine("OnScaleTo", Vector3.one * 0.5f);
+        // // 현재 위치에서 부모 오브젝트 위치로 이동
+        // StartCoroutine(OnMoveTo(transform.parent.position, returnTime));
     }
 
     IEnumerator OnMoveTo(Vector3 end, float time)
